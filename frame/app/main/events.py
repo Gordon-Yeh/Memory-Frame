@@ -16,7 +16,11 @@ def socket_connect():
 
 @socketio.on('filter_photos')
 def socket_show_dogs(label):
+<<<<<<< HEAD
 	images = fb.filter('people', label)
+=======
+	images = fb.filter('name', label)
+>>>>>>> bdec6f3... save
 	print('filter_photos results:')
 	print(images)
 	emit('photo_switch', json.dumps(images), namespace='/')
