@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class RegisterActivity extends AppCompatActivity {
 
         private Button registerBtn;
-        private EditText email, user, psw;
+        private EditText email, user, pwd;
 
         View decorView;
 
@@ -59,8 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
             registerBtn = (Button) findViewById(R.id.submitButton);
             email = (EditText) findViewById(R.id.E_mail);
             user = (EditText) findViewById(R.id.username);
-            psw = findViewById(R.id.password);
-            auth = FirebaseAuth.getInstance();
+            pwd = (EditText) findViewById(R.id.password);
 
             registerBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,23 +83,8 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
 
-
-            email.setOnEditorActionListener(new TextView.OnEditorActionListener(){
-
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    return (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
-                }
-            });
-
-            user.setOnEditorActionListener(new TextView.OnEditorActionListener(){
-
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    return (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
-                }
-            });
-
+            email.addTextChangedListener(new JumpText((email), user));
+            user.addTextChangedListener(new JumpText((user), pwd));
 
         }
 
