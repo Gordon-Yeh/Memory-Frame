@@ -44,4 +44,16 @@ class fb:
         for val in all_val:
             result.append(self.database.child(user.get('localId')).child(val).get(token = user.get('idToken')).val().get("imageUrl"))
         return result
-    
+
+    def tag_search(self, tag, user):
+        """ tags partially matched
+            using 'caption' as now there's no 'tags' field in the database entries
+        """
+        query = self.database.child(user.get('localId')).order_by_child('caption').start_at(tag).end_at(tag+'\uf8ff').get(token = user.get('idToken'))
+        if not query.pyres:
+            return []
+        all_val = query.val()
+        result = []
+        for val in all_val:
+            result.append(self.database.child(user.get('localId')).child(val).get(token = user.get('idToken')).val().get("imageUrl"))
+        return result
