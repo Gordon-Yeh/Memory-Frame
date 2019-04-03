@@ -1,4 +1,5 @@
 var photoNameList = [];
+var curr_photo_ind;
 var photo_frame = document.getElementById('photo-frame');
 
 /**
@@ -19,6 +20,14 @@ photo_frame.addEventListener('load', function resize() {
 });
 
 /**
+ * @param {int} max
+ * @return: a random value between 0 ~ max (exclusive)
+ */
+function getRandomInt(max) {
+	return Math.floor(Math.random() * Math.floor(max));
+}
+
+/**
  * @param {String} imageUrl
  */
 function switch_photo(imageUrl) {
@@ -33,15 +42,22 @@ export function photosInPool() {
  * switch the photo to another one in the pool
  */
 export function nextPhoto() {
-	switch_photo(photoNameList.pop());
+	switch_photo(photoNameList[curr_photo_ind]);
+	curr_photo_ind = (curr_photo_ind + 1) % photoNameList.length;
 }
 
 /**
- * 1) push a list of image urls to the front of the photo queue
+ * 1) update the current pool of photo URLs with the new one
+ * 2) switches the current photo to a random one from the new pool
  * @param {String[]} imageUrlList
  */
-export function push_photo_queue_front(imageUrlList) {
-	photoNameList.push(...imageUrlList);
+export function update_photo_pool(imageUrlList) {
+	// no new photos to switch to
+	// ideally if no photo is found this event shouldn't have been triggered
+	// by the back in the first place, but do this check to be safe
+	if (imageNameList.length == 0) return;
+	curr_photo_ind = 0;
+	photoNameList = imageNameList;
 }
 
 export function push_photo_queue_back(imageUrlList) {
