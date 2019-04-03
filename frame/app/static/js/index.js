@@ -44,20 +44,18 @@ label_submit.addEventListener('click', function () {
 
 socket.on('power', function(status) {
 	if (status == 'on') {
-		screen.setAttribute('class', status);
+		turnScreenOn();
 		nextPhoto();
 	} else if (status == 'off') {
-		screen.setAttribute('class', status);
+		turnScreenOff();
 	}
 })
 
 socket.on('next_photo', nextPhoto);
 
 socket.on('sleep', function(time) {
-	screen.setAttribute('class', 'off');
-	console.log('sleeping for: ', time, ' seconds');
+	turnScreenOff();
 	setTimeout(function () {
-		console.log('back alive!');
-		screen.setAttribute('class', 'on');
+		turnScreenOn();
 	}, time * 1000);
 });
