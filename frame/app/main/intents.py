@@ -9,8 +9,6 @@ from . import fb
 STATUSON = ['on', 'ON']
 STATUSOFF = ['off', 'OFF']
 
-logging.getLogger('flask_ask').setLevel(logging.DEBUG)
-
 @ask.launch
 def launch():
 	speech_text = 'Welcome to Memory Frame Automation.'
