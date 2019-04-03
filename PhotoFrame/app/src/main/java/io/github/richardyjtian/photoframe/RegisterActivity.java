@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
             });
 
             email.addTextChangedListener(new JumpText((email), user));
-            user.addTextChangedListener(new JumpText((user), pwd));
+            user.addTextChangedListener(new JumpText((user), psw));
 
         }
 
