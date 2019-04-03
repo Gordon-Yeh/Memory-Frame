@@ -17,10 +17,14 @@ def socket_connect():
 @socketio.on('filter_photos')
 def socket_show_dogs(label):
 <<<<<<< HEAD
+<<<<<<< HEAD
 	images = fb.filter('people', label)
 =======
 	images = fb.filter('name', label)
 >>>>>>> bdec6f3... save
+=======
+	images = fb.filter('people', label)
+>>>>>>> 2887508... working firebase filter
 	print('filter_photos results:')
 	print(images)
 	emit('photo_switch', json.dumps(images), namespace='/')
