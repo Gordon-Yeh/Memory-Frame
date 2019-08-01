@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class RegisterActivity extends AppCompatActivity {
 
         private Button registerBtn;
-        private EditText email, user, pwd;
+        private EditText email, user, psw;
 
 
 

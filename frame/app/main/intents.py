@@ -9,6 +9,8 @@ from . import fb
 STATUSON = ['on', 'ON']
 STATUSOFF = ['off', 'OFF']
 
+logging.getLogger('flask_ask').setLevel(logging.DEBUG)
+
 @ask.launch
 def launch():
 	speech_text = 'Welcome to Memory Frame Automation.'
@@ -45,8 +47,11 @@ def NextPhoto_Intent():
 @ask.intent('LocationStillIntent')
 def LocationStill_Intent(city):
 	images = fb.filter('location', city)
-	if len(images) != 0:
-		emit('location_still', json.dumps(images), namespace='/', broadcast=True)
+	if len(images) == 1:
+		emit('photo_switch', json.dumps(images), namespace='/', broadcast=True)
+		return statement('Here is a photo from {}'.format(city))
+	if len(images) > 1:
+		emit('photo_switch', json.dumps(images), namespace='/', broadcast=True)
 		return statement('Here is a photo from {}. By the way {} other photos from {} were also found' .format(city, len(images), city))
 	else:
 		return statement('Sorry, no photos were found from {}' .format(city))
@@ -63,8 +68,13 @@ def LocationSlide_Intent(city):
 @ask.intent('PersonStillIntent')
 def PersonStill_Intent(person):
 	images = fb.filter('people', person)
-	if len(images) != 0:
-		emit('person_still', json.dumps(images), namespace='/', broadcast=True)
+	print('PersonStillIntent')
+	print(images)
+	if len(images) == 1:
+		emit('photo_switch', json.dumps(images), namespace='/', broadcast=True)
+		return statement('Here is a photo of {}'.format(person))
+	elif len(images) > 1:
+		emit('photo_switch', json.dumps(images), namespace='/', broadcast=True)
 		return statement('Here is a photo of {}. By the way {} other photos with {} were also found' .format(person, len(images), person))
 	else:
 		return statement('Sorry, no photos were found of {}' .format(person))
@@ -99,7 +109,7 @@ def Help_Intent(options):
 	elif options == 'filtering':
 		return statement('Feeling like reliving some favorite memories? You can revisit them by asking the memory frame to show you photos from a specific person or city')
 	else:
-		return statement('Memory frame is a digital photo frame with voice control. You can tell it to turn on and off, change photos or even search for photos by location or person')
+		return statement('Memory frame is a digital photo frame with voice control. You can use it to share memories with friends and family who like apart from you. It\'s really easy to use, just tell it to turn on and off, change photos or even search for photos by location or person')
 
 @ask.intent('AMAZON.HelpIntent')
 def help():

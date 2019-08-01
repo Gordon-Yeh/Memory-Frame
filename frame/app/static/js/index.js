@@ -20,8 +20,13 @@ socket.on('initialize', function(data) {
  */
 socket.on('photo_switch', function(data) {
 	console.log('updating photos:', data);
-	update_photo_pool(JSON.parse(data));
+	push_photo_queue_front(JSON.parse(data));
 	nextPhoto();
+});
+
+socket.on('update_photos', function(data) {
+	console.log('updating photos with:', data);
+	push_photo_queue_back(JSON.parse(data));
 });
 
 socket.on('test', function(message) {
@@ -37,7 +42,13 @@ socket.on('power', function(status) {
 	}
 })
 
-socket.on('next_photo', nextPhoto);
+socket.on('next_photo', function () {
+	nextPhoto();
+	if (photosInPool() == 0) {
+		console.log('out of photos fetching more!')
+		socket.emit('fetch_all_photos');
+	}
+});
 
 socket.on('sleep', function(time) {
 	turnScreenOff();

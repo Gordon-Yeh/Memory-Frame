@@ -54,4 +54,3 @@ class Firebase:
         for val in all_val:
             result.append(self.database.child(self.user.get('localId')).child(val).get(token = self.user.get('idToken')).val().get("imageUrl"))
         return result
-    
